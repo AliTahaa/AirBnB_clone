@@ -9,30 +9,25 @@ from models.city import City
 
 
 class TestCity(unittest.TestCase):
-    """ test for city
-    """
+    """ test for city """
     def setUp(self):
-        """ standard setUp()
-        """
+        """ standard setUp() """
         self.model = City()
 
     def test_public_attr(self):
-        """ if public attribute exists and if equal to empty string
-        """
+        """ public attribute exists and if equal to empty string """
         self.assertTrue(hasattr(self.model, "state_id"))
         self.assertTrue(hasattr(self.model, "name"))
         self.assertEqual(self.model.state_id, "")
         self.assertEqual(self.model.name, "")
 
     def test_strings(self):
-        """ input for each attr
-        """
-        self.model.name = "San Francisco"
-        # OJO
-        self.model.state_id = "7d78d8de-a37f-4edd-9443-1578032a1eea"
-        self.assertEqual(self.model.name, "San Francisco")
+        """ input for each attr """
+        self.model.name = "cairo"
+        self.model.state_id = "13fe4e9f-8b94-4dd2-af31-8db9180aa3f4"
+        self.assertEqual(self.model.name, "cairo")
         self.assertEqual(self.model.state_id,
-                         "7d78d8de-a37f-4edd-9443-1578032a1eea")
+                         "13fe4e9f-8b94-4dd2-af31-8db9180aa3f4")
 
 
 if __name__ == '__main__':

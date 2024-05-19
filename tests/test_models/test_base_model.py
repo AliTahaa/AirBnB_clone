@@ -11,63 +11,53 @@ import models
 
 
 class TestBaseModel(unittest.TestCase):
-    """test for class BaseModel and its methods
-    """
+    """test for class BaseModel"""
     def setUp(self):
-        """ Set up method
-        """
+        """ Set up method """
         self.base1 = BaseModel()
         self.base2 = BaseModel()
 
     def tearDown(self):
-        """ Tear down method
-        """
+        """ Tear down method """
         pass
 
     def test_docstring(self):
-        """ test doc in the file
-        """
+        """ test doc in the file """
         self.assertIsNotNone(BaseModel.__doc__)
         self.assertIsNotNone(BaseModel.__init__.__doc__)
         self.assertIsNotNone(BaseModel.save.__doc__)
 
     def test_uuid(self):
-        """ Test for uuid
-        """
+        """ Test for uuid """
         self.assertNotEqual(self.base1.id, self.base2.id)
         self.assertTrue(hasattr(self.base1, "id"))
         self.assertEqual(type(self.base1.id), str)
         self.assertEqual(type(self.base2.id), str)
 
     def test_instance(self):
-        """ Test for instance
-        """
+        """ Test for instance """
         self.assertTrue(isinstance(self.base1, BaseModel))
         self.assertTrue(isinstance(self.base2, BaseModel))
 
     def test_type(self):
-        """ Test for type of object
-        """
+        """ Test for type of object """
         self.assertEqual(type(self.base1), BaseModel)
         self.assertEqual(type(self.base2), BaseModel)
 
     def test_save(self):
-        """ Test for save
-        """
+        """ Test for save """
         time = self.base1.updated_at
         self.base1.save()
         self.assertFalse(time == self.base1.updated_at)
 
     def test_update(self):
-        """ Test for update
-        """
-        self.base1.name = "Holberton"
+        """ Test for update """
+        self.base1.name = "aswan"
         self.assertTrue(hasattr(self.base1, "name"))
 
     def test_init_with_kwargs(self):
-        """ Test to init for kwargs
-        """
-        self.base1.name = "Holberton"
+        """ Test to init for kwargs """
+        self.base1.name = "aswan"
         model_json = self.base1.to_dict()
         new_model = BaseModel(**model_json)
         self.assertDictEqual(model_json, new_model.to_dict())
@@ -75,8 +65,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsNot(self.base1, new_model)
 
     def test_storage(self):
-        """ Test to staorage
-        """
+        """ Test to staorage """
         obj_dict = models.storage.all()
         self.assertTrue(obj_dict)
 
