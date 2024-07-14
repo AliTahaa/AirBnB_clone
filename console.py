@@ -90,7 +90,7 @@ class HBNBCommand(cmd.Cmd):
             for key, value in obj_dict.items():
                 print(str(value))
         elif commands[0] not in self.my_classes:
-            print(" ** class doesn't exist ** ")
+            print(" ** class doesn't exist **")
         else:
             for key, value in obj_dict.items():
                 if key.split(".")[0] == commands[0]:
