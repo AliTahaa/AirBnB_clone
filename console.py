@@ -1,136 +1,53 @@
 #!/usr/bin/python3
-"""the HBnB console."""
-import cmd
-from shlex import split
-from models import storage
+""" FileStorage that serializes instances to a JSON file and deserializes JSON
+file to instances:
+"""
+
+import json
 from models.base_model import BaseModel
-from models.user import User
-from models.state import State
+from models.amenity import Amenity
 from models.city import City
 from models.place import Place
-from models.amenity import Amenity
 from models.review import Review
+from models.state import State
+from models.user import User
 
 
-class HBNBCommand(cmd.Cmd):
-    """HBNBCommand class."""
+class FileStorage():
+    """ serializes instances to a JSON file and deserializes JSON"""
 
-    prompt = "(hbnb) "
-    my_classes = {
-        "BaseModel",
-        "User",
-        "State",
-        "City",
-        "Amenity",
-        "Place",
-        "Review"
-    }
+    __file_path = "file.json"  # path to the JSON file (ex: file.json)
+    __objects = {}  # dictionary - store all objects by <class name>.id
 
-    def do_quit(self, arg):
-        """exit the program."""
-        return True
+    def all(self):
+        """  returns the dictionary __objects """
+        return self.__objects
 
-    def do_EOF(self, arg):
-        """exit the program."""
-        print("")
-        return True
+    def new(self, obj):
+        """ sets in __objects the obj with key <obj class name>.id """
+        '''get key of the form <obj class name>.id '''
+        key = obj.__class__.__name__ + "." + str(obj.id)
+        self.__objects[key] = obj
 
-    def emptyline(self):
-        """don't execute anything."""
-        pass
+    def save(self):
+        """serializes __objects to the JSON file (path: __file_path)"""
 
-    def do_create(self, arg):
-        """Creates a new instance"""
-        commands = split(arg)
-        if len(commands) == 0:
-            print("** class name missing **")
-        elif commands[0] not in self.my_classes:
-            print("** class doesn't exist **")
-        else:
-            new = eval(commands[0])()
-            print(new.id)
-            storage.save()
+        ''' create empty dictionary'''
+        json_object = {}
+        """ fill dictionary with elements __objects """
+        for key in self.__objects:
+            json_object[key] = self.__objects[key].to_dict()
 
-    def do_show(self, arg):
-        """ Prints the string representation of an instance"""
-        commands = split(arg)
-        obj_dict = storage.all()
-        if len(commands) == 0:
-            print("** class name missing **")
-        elif commands[0] not in self.my_classes:
-            print("** class doesn't exist **")
-        elif len(commands) == 1:
-            print("** instance id missing **")
-        elif "{}.{}".format(commands[0], commands[1]) not in obj_dict:
-            print("** no instance found **")
-        else:
-            print(obj_dict["{}.{}".format(commands[0], commands[1])])
+        with open(self.__file_path, 'w') as f:
+            json.dump(json_object, f)
 
-    def do_destroy(self, arg):
-        """Deletes an instance."""
-        commands = split(arg)
-        obj_dict = storage.all()
-        if len(commands) == 0:
-            print("** class name missing **")
-        elif commands[0] not in self.my_classes:
-            print("** class doesn't exist **")
-        elif len(commands) == 1:
-            print("** instance id missing **")
-        elif "{}.{}".format(commands[0], commands[1]) not in obj_dict.keys():
-            print("** no instance found **")
-        else:
-            del obj_dict["{}.{}".format(commands[0], commands[1])]
-            storage.save()
-
-    def do_all(self, arg):
-        """Prints all string representation of all instances."""
-        commands = split(arg)
-        obj_dict = storage.all()
-        if len(commands) == 0:
-            for key, value in obj_dict.items():
-                print(str(value))
-        elif commands[0] not in self.my_classes:
-            print("** class doesn't exist **")
-        else:
-            for key, value in obj_dict.items():
-                if key.split(".")[0] == commands[0]:
-                    print(str(value))
-
-    def do_update(self, arg):
-        """Updates an instance."""
-        commands = split(arg)
-        obj_dict = storage.all()
-
-        if len(commands) == 0:
-            print("** class name missing **")
-            return False
-        elif commands[0] not in self.my_classes:
-            print("** class doesn't exist **")
-            return False
-        elif len(commands) == 1:
-            print("** instance id missing **")
-            return False
-        elif "{}.{}".format(commands[0], commands[1]) not in obj_dict.keys():
-            print("** no instance found **")
-            return False
-        elif len(commands) == 2:
-            print("** attribute name missing **")
-            return False
-        elif len(commands) == 3:
-            print("** value missing **")
-            return False
-
-        else:
-            obj = obj_dict["{}.{}".format(commands[0], commands[1])]
-            att_name = commands[2]
-            att_value = commands[3]
-            try:
-                attr_value = eval(attr_value)
-            except Exception:
-                pass
-            setattr(obj, att_name, att_value)
-            storage.save()
-
-
-if __name__ == "__main__":
-    HBNBCommand().cmdloop()
+    def reload(self):
+        """ deserializes the JSON file to __objects """
+        try:
+            with open(self.__file_path, 'r', encoding="UTF8") as f:
+                # jlo = json.load(f)
+                for key, value in json.load(f).items():
+                    attri_value = eval(value["__class__"])(**value)
+                    self.__objects[key] = attri_value
+        except FileNotFoundError:
+            pass
