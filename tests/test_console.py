@@ -4,7 +4,6 @@
 
 import unittest
 import sys
-from console import HBNBdata
 from unittest.mock import create_autospec
 
 
@@ -14,10 +13,6 @@ class TestConsole(unittest.TestCase):
         """ standard setUp """
         self.mock_stdin = create_autospec(sys.stdin)
         self.mock_stdout = create_autospec(sys.stdout)
-
-    def create(self, server=None):
-        """ create """
-        return HBNBdata(stdin=self.mock_stdin, stdout=self.mock_stdout)
 
     def test_exit(self):
         """ test exit command """
