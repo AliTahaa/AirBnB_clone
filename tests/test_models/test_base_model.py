@@ -19,6 +19,11 @@ class TestBaseModel(unittest.TestCase):
         self.model1.save()
         self.assertNotEqual(first_time, self.model1.updated_at)
 
+    def test_to_dect(self):
+        dic = self.model1.to_dict()
+        self.assertEqual(dic["__class__"], self.__class__.__name__)
+
+
 
 if __name__ == "__main__":
     unittest.main()
