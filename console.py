@@ -17,7 +17,7 @@ class HBNBCommand(cmd.Cmd):
         return 1
 
     def emptyline(self):
-        return super().emptyline()
+        pass
 
     def do_hi(self, line):
         '''asassa'''
