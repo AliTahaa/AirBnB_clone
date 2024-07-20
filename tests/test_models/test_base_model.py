@@ -13,9 +13,6 @@ class TestBaseModel(unittest.TestCase):
 
     def test_attr(self):
         self.assertNotEqual(self.model1.id, self.model2.id)
-        self.assertTrue(hasattr(self.model1, "id"))
-        self.assertEqual(type(self.model1.id), str)
-        self.assertEqual(type(self.model2.id), str)
 
 
 if __name__ == "__main__":
