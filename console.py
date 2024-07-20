@@ -1,9 +1,10 @@
 #!/usr/bin/python3
-
+'''HBNB console'''
 import cmd
 
 
 class HBNBCommand(cmd.Cmd):
+    '''HBNB class'''
 
     prompt = "(hbnb) "
 
