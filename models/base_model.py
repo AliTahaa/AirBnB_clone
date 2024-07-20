@@ -7,10 +7,13 @@ from datetime import datetime
 
 class BaseModel():
     """BaseModel class"""
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         self.id = str(uuid4())
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
+        if kwargs != None:
+            for key, value in kwargs.items():
+                self.__dict__[key] = value
 
     def __str__(self):
         class_name = self.__class__.__name__
@@ -27,3 +30,5 @@ class BaseModel():
         data["created_at"] = datetime.now().isoformat()
         data["updated_at"] = datetime.now().isoformat()
         return data
+
+print(BaseModel().to_dict())
