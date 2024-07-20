@@ -1,12 +1,12 @@
 #!/usr/bin/python3
-'''Basemodel class'''
+"""BaseModel class"""
 
 from uuid import uuid4
 from datetime import datetime
 
 
 class BaseModel():
-    '''Basemodel class'''
+    """BaseModel class"""
     def __init__(self):
         self.id = str(uuid4())
         self.created_at = datetime.now()
