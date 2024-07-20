@@ -19,7 +19,7 @@ class BaseModel():
         print("[{}] ({}) {}".format(class_name, id, data))
 
     def save(self):
-        self.updated_at = str(datetime.now().isoformat())
+        self.updated_at = datetime.now().isoformat()
 
     def to_dict(self):
         data = self.__dict__.copy()
