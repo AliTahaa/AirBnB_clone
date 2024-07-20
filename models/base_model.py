@@ -16,7 +16,7 @@ class BaseModel():
         class_name = self.__class__.__name__
         id = self.id
         data = self.__dict__
-        print("[{}] ({}) {}".format(class_name, id, data))
+        return"[{}] ({}) {}".format(class_name, id, data)
 
     def save(self):
         self.updated_at = datetime.now()
