@@ -14,6 +14,9 @@ class TestBaseModel(unittest.TestCase):
     def test_attr(self):
         self.assertNotEqual(self.model1.id, self.model2.id)
 
+    def test_save(self):
+        self.assertNotEqual(self.model1.created_at, self.model2.updated_at)
+
 
 if __name__ == "__main__":
     unittest.main()
