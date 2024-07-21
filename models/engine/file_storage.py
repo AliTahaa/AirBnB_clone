@@ -20,6 +20,7 @@ class FileStorage():
 
     def reload(self):
         if os.path.exists(FileStorage.__file_path):
-            FileStorage.__objects = json.load(FileStorage.__file_path)
+            with open(FileStorage.__file_path, "r") as file:
+                FileStorage.__objects = json.load(file)
         else:
             pass
