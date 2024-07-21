@@ -2,7 +2,6 @@
 
 import json
 import os
-from models.base_model import BaseModel
 
 
 class FileStorage():
@@ -21,12 +20,11 @@ class FileStorage():
 
     def reload(self):
         if os.path.exists(FileStorage.__file_path):
-            with open(self.__file_path, 'r') as f:
-                objs = json.load(f)
-                for key, value in objs.items():
-                    class_name = value["__class__"]
-                    del value["__class__"]
-                    if class_name == 'BaseModel':
-                        self.__objects[key] = BaseModel(**value)
+            with open(FileStorage.__file_path, "r") as file:
+                obj_dict = json.load(file)
+                for i in obj_dict.values():
+                    class_name = i["__class__"]
+                    del i["__class__"]
+                    self.new(eval(class_name)(**i))
         else:
             pass
