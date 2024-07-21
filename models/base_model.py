@@ -3,12 +3,15 @@
 
 from uuid import uuid4
 from datetime import datetime
+from models import storage
 
 
 class BaseModel():
     """BaseModel class"""
     def __init__(self, *args, **kwargs):
         t_format = "%Y-%m-%dT%H:%M:%S.%f"
+        if self.__dict__ is None:
+            storage.new()
         self.id = str(uuid4())
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
@@ -27,6 +30,7 @@ class BaseModel():
 
     def save(self):
         self.updated_at = datetime.now()
+        storage.save()
 
     def to_dict(self):
         data = self.__dict__.copy()
