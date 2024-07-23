@@ -43,11 +43,10 @@ class TestFileStorage(unittest.TestCase):
         """ Tests method: new (saves new object into dictionary)"""
         m_storage = FileStorage()
         instances_dic = m_storage.all()
-        user1 = User()
-        user1.id = 555555
-        user1.name = "ali"
-        m_storage.new(user1)
-        key = user1.__class__.__name__ + "." + str(user1.id)
+        aux1 = BaseModel()
+        aux1.id = "123456"
+        m_storage.new(aux1)
+        key = aux1.__class__.__name__ + "." + aux1.id
         self.assertIsNotNone(instances_dic[key])
 
     def test_reload_empty(self):
