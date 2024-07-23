@@ -32,6 +32,7 @@ class FileStorage():
                     for key, value in obj_dict.items():
                         class_name, obj_id = key.split('.')
 
+                        del value["__class__"]
                         cls = eval(class_name)
 
                         instance = cls(**value)
