@@ -2,7 +2,7 @@
 
 import json
 import os
-
+from models.base_model import BaseModel
 
 class FileStorage():
     __file_path = "file.json"
@@ -23,8 +23,19 @@ class FileStorage():
             json.dump(obj_dict, file)
 
     def reload(self):
-        if os.path.exists(FileStorage.__file_path):
+        """ This method deserializes the JSON file to __objects """
+        if os.path.isfile(FileStorage.__file_path):
             with open(FileStorage.__file_path, "r") as file:
-                obj_dict = json.load(file)
-        else:
-            pass
+                try:
+                    obj_dict = json.load(file)
+
+                    for key, value in obj_dict.items():
+                        class_name, obj_id = key.split('.')
+
+                        cls = eval(class_name)
+
+                        instance = cls(**value)
+
+                        FileStorage.__objects[key] = instance
+                except Exception:
+                    pass
