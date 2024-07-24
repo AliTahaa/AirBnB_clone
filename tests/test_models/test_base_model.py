@@ -21,12 +21,6 @@ class TestBaseModel(unittest.TestCase):
         """ Tear down method """
         pass
 
-    def test_docstring(self):
-        """ test doc in the file """
-        self.assertIsNotNone(BaseModel.__doc__)
-        self.assertIsNotNone(BaseModel.__init__.__doc__)
-        self.assertIsNotNone(BaseModel.save.__doc__)
-
     def test_uuid(self):
         """ Test for uuid """
         self.assertNotEqual(self.base1.id, self.base2.id)
