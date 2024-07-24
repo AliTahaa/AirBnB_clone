@@ -7,6 +7,12 @@ import json
 import os
 import shutil
 from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 from models.engine.file_storage import FileStorage
 
 
@@ -15,6 +21,7 @@ class TestFileStorage(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """ method class setup"""
+        cls.aux1 = Review()
         cls.aux1.place_id = "testing"
         cls.aux1.user_id = "idUSER"
         cls.aux1.text = "text1"
@@ -43,10 +50,11 @@ class TestFileStorage(unittest.TestCase):
         """ Tests method: new (saves new object into dictionary)"""
         m_storage = FileStorage()
         instances_dic = m_storage.all()
-        aux1 = BaseModel()
-        aux1.id = "123456"
-        m_storage.new(aux1)
-        key = aux1.__class__.__name__ + "." + aux1.id
+        user1 = User()
+        user1.id = 555555
+        user1.name = "ali"
+        m_storage.new(user1)
+        key = user1.__class__.__name__ + "." + str(user1.id)
         self.assertIsNotNone(instances_dic[key])
 
     def test_reload_empty(self):
