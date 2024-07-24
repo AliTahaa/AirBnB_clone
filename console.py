@@ -3,12 +3,22 @@
 import cmd
 from models.base_model import BaseModel
 from models import storage
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
     '''HBNB class'''
 
     prompt = "(hbnb) "
+    my_classes = {
+        "BaseModel",
+        "User",
+        "State",
+        "City",
+        "Amenity",
+        "Place",
+        "Review"
+    }
 
     def do_quit(self, line):
         '''Quit command to exit the program'''
@@ -23,12 +33,13 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, arg):
         '''Creates a new instance of BaseModel'''
+        args = arg.split()
         if not arg:
             print("** class name missing **")
-        elif arg != "BaseModel":
+        elif arg not in self.my_classes:
             print("** class doesn't exist **")
         else:
-            model = BaseModel()
+            model = eval(args[0])()
             model.save()
             print(model.id)
 
@@ -37,7 +48,7 @@ class HBNBCommand(cmd.Cmd):
         args = arg.split()
         if not arg:
             print("** class name missing **")
-        elif args[0] != "BaseModel":
+        elif args[0] not in self.my_classes:
             print("** class doesn't exist **")
         elif len(args) == 1:
             print("** instance id missing **")
@@ -53,7 +64,7 @@ class HBNBCommand(cmd.Cmd):
         args = arg.split()
         if not arg:
             print("** class name missing **")
-        elif args[0] != "BaseModel":
+        elif args[0] not in self.my_classes:
             print("** class doesn't exist **")
         elif len(args) == 1:
             print("** instance id missing **")
@@ -72,7 +83,7 @@ class HBNBCommand(cmd.Cmd):
         if len(commands) == 0:
             for key, value in obj_dict.items():
                 print(str(value))
-        elif commands[0] != "BaseModel":
+        elif commands[0] not in self.my_classes:
             print("** class doesn't exist **")
         else:
             for key, value in obj_dict.items():
@@ -87,7 +98,7 @@ class HBNBCommand(cmd.Cmd):
         if len(commands) == 0:
             print("** class name missing **")
             return False
-        elif commands[0] != "BaseModel":
+        elif commands[0] not in self.my_classes:
             print("** class doesn't exist **")
             return False
         elif len(commands) == 1:
