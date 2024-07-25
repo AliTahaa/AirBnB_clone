@@ -25,6 +25,17 @@ class HBNBCommand(cmd.Cmd):
         "Review"
     }
 
+    def default(self, line):
+        try:
+            args = line.split(".")
+            class_name = args[0]
+            args2 = args[1].split("(")
+            command = args2[0]
+        except:
+            print("*** Unknown syntax: {}".format(line))
+            return
+        self.onecmd("{} {}".format(command, class_name))
+
     def do_quit(self, line):
         '''Quit command to exit the program'''
         return 1
