@@ -32,13 +32,16 @@ class HBNBCommand(cmd.Cmd):
             args2 = args[1].split("(")
             command = args2[0]
             args3 = args2[1].split(")")
-            class_id = args3[0]
             if command == "update":
                 attributes = args3[0].split(",")
+                attributes[1] = attributes[1].strip()
+                class_id = attributes[0].replace("\"", "")
                 if attributes[1].startswith("{"):
-                    dict_str = "".join(attributes[1:])
-                    print("{} {} {} {}".format(command, class_name, class_id, dict_str))
-                    self.onecmd("{} {} {} {}".format(command, class_name, class_id, dict_str))
+                    dict_str = "{"+line.split("{")[1].split("}")[0]+"}"
+                    print("{} {} {} {}".format(
+                        command, class_name, class_id, dict_str))
+                    self.onecmd("{} {} {} {}".format(
+                        command, class_name, class_id, dict_str))
                 else:
                     class_id = attributes[0].replace("\"", "")
                     class_name = class_name.replace("\"", "")
@@ -48,6 +51,7 @@ class HBNBCommand(cmd.Cmd):
                     self.onecmd("{} {} {} {} {}".format(
                         command, class_name, class_id, attr_name, attr_value))
             else:
+                class_id = args3[0]
                 self.onecmd("{} {} {}".format(command, class_name, class_id))
         except Exception:
             print("*** Unknown syntax: {}".format(line))
