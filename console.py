@@ -35,13 +35,18 @@ class HBNBCommand(cmd.Cmd):
             class_id = args3[0]
             if command == "update":
                 attributes = args3[0].split(",")
-                class_id = attributes[0].replace("\"", "")
-                class_name = class_name.replace("\"", "")
-                command = command.replace("\"", "")
-                attr_name = attributes[1].replace("\"", "")
-                attr_value = attributes[2].replace("\"", "")
-                self.onecmd("{} {} {} {} {}".format(
-                    command, class_name, class_id, attr_name, attr_value))
+                if attributes[1].startswith("{"):
+                    dict_str = "".join(attributes[1:])
+                    print("{} {} {} {}".format(command, class_name, class_id, dict_str))
+                    self.onecmd("{} {} {} {}".format(command, class_name, class_id, dict_str))
+                else:
+                    class_id = attributes[0].replace("\"", "")
+                    class_name = class_name.replace("\"", "")
+                    command = command.replace("\"", "")
+                    attr_name = attributes[1].replace("\"", "")
+                    attr_value = attributes[2].replace("\"", "")
+                    self.onecmd("{} {} {} {} {}".format(
+                        command, class_name, class_id, attr_name, attr_value))
             else:
                 self.onecmd("{} {} {}".format(command, class_name, class_id))
         except Exception:
@@ -138,6 +143,13 @@ class HBNBCommand(cmd.Cmd):
         elif len(commands) == 2:
             print("** attribute name missing **")
             return False
+        elif commands[2].startswith("{"):
+            dict_str = " ".join(commands[2:])
+            update_dict = eval(dict_str)
+            obj = obj_dict["{}.{}".format(commands[0], commands[1])]
+            for key, value in update_dict.items():
+                setattr(obj, key, value)
+            storage.save()
         elif len(commands) == 3:
             print("** value missing **")
             return False
