@@ -33,10 +33,20 @@ class HBNBCommand(cmd.Cmd):
             command = args2[0]
             args3 = args2[1].split(")")
             class_id = args3[0]
-        except:
+            if command == "update":
+                attributes = args3[0].split(",")
+                class_id = attributes[0].replace("\"", "")
+                class_name = class_name.replace("\"", "")
+                command = command.replace("\"", "")
+                attr_name = attributes[1].replace("\"", "")
+                attr_value = attributes[2].replace("\"", "")
+                self.onecmd("{} {} {} {} {}".format(
+                    command, class_name, class_id, attr_name, attr_value))
+            else:
+                self.onecmd("{} {} {}".format(command, class_name, class_id))
+        except Exception:
             print("*** Unknown syntax: {}".format(line))
             return
-        self.onecmd("{} {} {}".format(command, class_name, class_id))
 
     def do_quit(self, line):
         """ Quit command to exit the program """
