@@ -12,7 +12,7 @@ from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
-    '''HBNB class'''
+    """ HBNB class """
 
     prompt = "(hbnb) "
     my_classes = {
@@ -31,24 +31,26 @@ class HBNBCommand(cmd.Cmd):
             class_name = args[0]
             args2 = args[1].split("(")
             command = args2[0]
+            args3 = args2[1].split(")")
+            class_id = args3[0]
         except:
             print("*** Unknown syntax: {}".format(line))
             return
-        self.onecmd("{} {}".format(command, class_name))
+        self.onecmd("{} {} {}".format(command, class_name, class_id))
 
     def do_quit(self, line):
-        '''Quit command to exit the program'''
+        """ Quit command to exit the program """
         return 1
 
     def do_EOF(self, line):
-        '''EOF (end-of-file) command to exit the program'''
+        """ EOF (end-of-file) command to exit the program """
         return 1
 
     def emptyline(self):
         pass
 
     def do_create(self, arg):
-        '''Creates a new instance of BaseModel'''
+        """ Creates a new instance of BaseModel """
         args = arg.split()
         if not arg:
             print("** class name missing **")
@@ -60,7 +62,7 @@ class HBNBCommand(cmd.Cmd):
             print(model.id)
 
     def do_show(self, arg):
-        """Prints the string representation of an instance"""
+        """ Prints the string representation of an instance """
         args = arg.split()
         if not arg:
             print("** class name missing **")
@@ -76,7 +78,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
 
     def do_destroy(self, arg):
-        """Deletes an instance based on the class name and id"""
+        """ Deletes an instance based on the class name and id """
         args = arg.split()
         if not arg:
             print("** class name missing **")
@@ -93,7 +95,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
 
     def do_all(self, arg):
-        """Prints all string representation of all instances."""
+        """ Prints all string representation of all instances. """
         commands = arg.split()
         obj_dict = storage.all()
         if len(commands) == 0:
@@ -107,7 +109,7 @@ class HBNBCommand(cmd.Cmd):
                     print(str(value))
 
     def do_update(self, arg):
-        """Updates an instance."""
+        """ Updates an instance based on the class name and id. """
         commands = arg.split()
         obj_dict = storage.all()
 
