@@ -9,7 +9,6 @@ header {
 }
 
 .logo {
-  /* Background pattern from Toptal Subtle Patterns */
   position: absolute;
   background-image: url("../images/logo.png");
   background-repeat: no-repeat;

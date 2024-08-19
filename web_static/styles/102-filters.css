@@ -57,13 +57,6 @@
   display: block;
 }
 
-/* .locations:hover + ul {background: #555;}
-ul li:hover ul {display: block;}
-
-.filters div:hover + .popover{
-  display: block;
-} */
-
 button {
   position: absolute;
   font-size: 18px;
